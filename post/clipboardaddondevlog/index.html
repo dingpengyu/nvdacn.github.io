@@ -1,0 +1,105 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>剪贴板插件开发日志 - NVDA中文站 - 改变从这里开始</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="NVDA中文站"><meta name=description content="第四十一期 重复朗读问题 涉及不同来源候选词列表比对 第四十期 qq标点没有事件 朗读问题多次修改反复本地无法解决 第三十九期 0.58.18 修复表情面板问题 解决不读"><meta name=keywords content="NVDA,中文站,中文主页"><meta name=generator content="Hugo 0.83.1 with theme even"><link rel=canonical href=http://localhost:1313/post/clipboardaddondevlog/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="剪贴板插件开发日志"><meta property="og:description" content="第四十一期 重复朗读问题 涉及不同来源候选词列表比对 第四十期 qq标点没有事件 朗读问题多次修改反复本地无法解决 第三十九期 0.58.18 修复表情面板问题 解决不读"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/clipboardaddondevlog/"><meta property="article:section" content="post"><meta property="article:published_time" content="2019-12-14T12:05:00+00:00"><meta property="article:modified_time" content="2019-12-14T12:05:00+00:00"><meta itemprop=name content="剪贴板插件开发日志"><meta itemprop=description content="第四十一期 重复朗读问题 涉及不同来源候选词列表比对 第四十期 qq标点没有事件 朗读问题多次修改反复本地无法解决 第三十九期 0.58.18 修复表情面板问题 解决不读"><meta itemprop=datePublished content="2019-12-14T12:05:00+00:00"><meta itemprop=dateModified content="2019-12-14T12:05:00+00:00"><meta itemprop=wordCount content="1180"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="剪贴板插件开发日志"><meta name=twitter:description content="第四十一期 重复朗读问题 涉及不同来源候选词列表比对 第四十期 qq标点没有事件 朗读问题多次修改反复本地无法解决 第三十九期 0.58.18 修复表情面板问题 解决不读"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>NVDA中文站</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>首页</li></a><a href=/post/><li class=mobile-menu-item>规档</li></a><a href=/tags/><li class=mobile-menu-item>标签</li></a><a href=/categories/><li class=mobile-menu-item>分类</li></a><a href=/about><li class=mobile-menu-item>中文站全家福</li></a><a href=/nvda><li class=mobile-menu-item>下载 NVDA</li></a><a href=/nvda-archive><li class=mobile-menu-item>NVDA 老版本下载归档</li></a><a href=/faq><li class=mobile-menu-item>新人请看</li></a><a href=/tts><li class=mobile-menu-item>语音库</li></a><a href=/contributers><li class=mobile-menu-item>荣誉名单</li></a><a href=/dev><li class=mobile-menu-item>开发者须知</li></a><a href=/alpha><li class=mobile-menu-item>NVDA 尝鲜版</li></a><a href><li class=mobile-menu-item></li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>NVDA中文站</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>首页</a></li><li class=menu-item><a class=menu-item-link href=/post/>规档</a></li><li class=menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=menu-item><a class=menu-item-link href=/about>中文站全家福</a></li><li class=menu-item><a class=menu-item-link href=/nvda>下载 NVDA</a></li><li class=menu-item><a class=menu-item-link href=/nvda-archive>NVDA 老版本下载归档</a></li><li class=menu-item><a class=menu-item-link href=/faq>新人请看</a></li><li class=menu-item><a class=menu-item-link href=/tts>语音库</a></li><li class=menu-item><a class=menu-item-link href=/contributers>荣誉名单</a></li><li class=menu-item><a class=menu-item-link href=/dev>开发者须知</a></li><li class=menu-item><a class=menu-item-link href=/alpha>NVDA 尝鲜版</a></li><li class=menu-item><a class=menu-item-link href></a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>剪贴板插件开发日志</h1><div class=post-meta><span class=post-time>2019-12-14</span><div class=post-category><a href=/categories/%E6%9C%80%E6%96%B0%E6%83%85%E6%8A%A5/>最新情报</a></div><span class=more-meta>1180 words</span>
+<span class=more-meta>3 mins read</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class=post-toc-content><nav id=TableOfContents></nav></div></div><div class=post-content><p>第四十一期
+重复朗读问题 涉及不同来源候选词列表比对
+第四十期
+qq标点没有事件
+朗读问题多次修改反复本地无法解决
+第三十九期
+0.58.18
+修复表情面板问题
+解决不读标点问题
+第三十八期
+0.58.17
+解决新版微软拼音重复和表情面板朗读问题
+第三十七期
+0.58.16
+修复新版微软拼音重复朗读问题
+第三十六期
+0.58.10
+修复候选词解释设置不生效问题
+第三十五期
+0.58.4
+修复新版微软拼音某些事件不朗读问题
+第三十四期
+3.7.5
+修复剪贴板编辑器内容问题
+修复剪贴板浏览模式下回车键无效
+第三十三期
+3.7.2
+左右移动单个字符不再解释
+剪贴板浏览模式屏蔽左右光标
+3.7.1
+修复行号 ctrl+1 ctrl+3 不一致问题
+第三十二期
+3.7
+添加剪贴板浏览模式
+剪贴板编辑器同步设置</p><p>第三十一期
+3.6.8修复 输入字母也解释的问题
+第三十一期
+0.57.9
+修复windows加空格切换输入法跑焦点
+修复20H1之前的微软输入法上屏读空白
+第三十期
+小板3.6 添加多剪贴板功能 10个槽位 对NVDA+Ctrl+0到9 仅支持文本内容
+修复bug
+统计文件大小导致NVDA卡顿
+读历史记录和读剪贴板上、下一个词/字符好像都是乱的
+第二十九期
+电脑坏了 刚换好新机器 这一周没有进度
+第二十八期
+搜狗的發送到輸入法事件不可靠，嘗試添加鍵盤鉤子修復朗讀問題，順便提供取消輸入的提升。但是外部鍵盤鉤子容易卡死NVDA。
+第二十七期
+修复输入法插件设置无法保存
+输入法插件重新加载多个设置兰
+第二十六期
+移除了20H1输入法支持 避免和win10增强冲突
+第二十五期
+腱鞘炎犯了 本周 下周都需要休息</p><p>第二十四期
+输入法插件支持2004新版输入法</p><p>第二十三期
+迁移中文站服务器 和2004微软输入法原生支持的pr</p><p>第二十二期
+在解决编辑器同步问题试了几个办法都有很多问题</p><p>第二十一期
+发布剪贴板和缓冲区功能测试版
+修复bug若干</p><p>第二十期
+重写缓冲区逻辑</p><p>第十九期
+重写剪贴板逻辑 以解决不同步bug</p><p>第十八期
+把监控剪贴板移动到nvda主循环内 提高性能
+删去汉字解释节省空间</p><p>第十七期
+添加多剪贴板功能</p><p>第十六期
+住院复查 没有更新进度</p><p>第十五期
+修复剪贴板和缓冲区分词问题</p><p>第十四期
+综述剪贴板支持文件和图片</p><p>第十三期
+修复编辑器跟随问题</p><p>第十二期
+添加翻译
+增加分词引擎设置</p><p>第十一期<br>更新依赖库版本修复安全问题
+增加每页行数设置
+修复粘贴 剪切复制提示</p><p>第十期
+另开一个线程监视剪贴板会导致卡顿，更换了监视的方式。</p><p>第九期
+整合剪贴板监视功能</p><p>第八期
+修正农历数据</p><p>第七期
+调整分词引擎 增加停用词保证效果</p><p>第六期
+修复书签保存问题</p><p>第五期
+新的beta版本修复缓冲区和剪贴板是单个字符的时候不读的问题修改了语音框架，这一周在适配这个改动</p><p>第四期
+改用其他库处理农历问题
+原版苹果语音不再需要降级朗读</p><p>第三期
+修复语音框架更新带来的朗读问题
+修复按行列划分剪贴板内容的bug
+第二期
+本周主要是重写按行 词语和字符浏览的部分 使用HMM的分词引擎切分中文
+第一期
+让插件代码在python3下运行
+补上NVDA新版本删除的库和常量
+设置放到nvda.ini里面
+把自带的pickle格式字典换成json以便兼容多版本</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>NVDA中文站</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2019-12-14</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/nvda-addon-development/><i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">NVDA addon 開發小教學</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/nvdacon2019/><span class="next-text nav-default">nvdacon2019用户和开发者大会</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:your@email.com class="iconfont icon-email" title=email></a><a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a><a href=http://localhost:1313 class="iconfont icon-twitter" title=twitter></a><a href=http://localhost:1313 class="iconfont icon-facebook" title=facebook></a><a href=http://localhost:1313 class="iconfont icon-linkedin" title=linkedin></a><a href=http://localhost:1313 class="iconfont icon-google" title=google></a><a href=http://localhost:1313 class="iconfont icon-github" title=github></a><a href=http://localhost:1313 class="iconfont icon-weibo" title=weibo></a><a href=http://localhost:1313 class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313 class="iconfont icon-douban" title=douban></a><a href=http://localhost:1313 class="iconfont icon-pocket" title=pocket></a><a href=http://localhost:1313 class="iconfont icon-tumblr" title=tumblr></a><a href=http://localhost:1313 class="iconfont icon-instagram" title=instagram></a><a href=http://localhost:1313 class="iconfont icon-gitlab" title=gitlab></a><a href=http://localhost:1313 class="iconfont icon-bilibili" title=bilibili></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2014 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>NVDA中文站</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script></body></html>
